@@ -1,4 +1,4 @@
-module DLFP8
+module DLFP8Types
 
 using Core: bitcast
 

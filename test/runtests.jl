@@ -1,7 +1,7 @@
-using DLFP8
+using DLFP8Types
 using Test
 
-@testset "DLFP8.jl" begin
+@testset "DLFP8Types.jl" begin
     for FP8 in (Float8_E4M3FN, Float8_E4M3FNUZ, Float8_E5M2, Float8_E5M2FNUZ)
         name = String(nameof(FP8))
         @testset "$name" begin

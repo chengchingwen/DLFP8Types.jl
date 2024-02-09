@@ -1,14 +1,14 @@
-using DLFP8
+using DLFP8Types
 using Documenter
 
-DocMeta.setdocmeta!(DLFP8, :DocTestSetup, :(using DLFP8); recursive=true)
+DocMeta.setdocmeta!(DLFP8Types, :DocTestSetup, :(using DLFP8Types); recursive=true)
 
 makedocs(;
-    modules=[DLFP8],
+    modules=[DLFP8Types],
     authors="chengchingwen <chengchingwen214@gmail.com> and contributors",
-    sitename="DLFP8.jl",
+    sitename="DLFP8Types.jl",
     format=Documenter.HTML(;
-        canonical="https://chengchingwen.github.io/DLFP8.jl",
+        canonical="https://chengchingwen.github.io/DLFP8Types.jl",
         edit_link="main",
         assets=String[],
     ),
@@ -18,6 +18,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/chengchingwen/DLFP8.jl",
+    repo="github.com/chengchingwen/DLFP8Types.jl",
     devbranch="main",
 )

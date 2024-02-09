@@ -1,14 +1,14 @@
 ```@meta
-CurrentModule = DLFP8
+CurrentModule = DLFP8Types
 ```
 
-# DLFP8
+# DLFP8Types
 
-Documentation for [DLFP8](https://github.com/chengchingwen/DLFP8.jl).
+Documentation for [DLFP8Types](https://github.com/chengchingwen/DLFP8Types.jl).
 
 ```@index
 ```
 
 ```@autodocs
-Modules = [DLFP8]
+Modules = [DLFP8Types]
 ```
