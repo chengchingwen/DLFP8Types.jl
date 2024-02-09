@@ -1,7 +1,7 @@
 # https://github.com/pytorch/pytorch/blob/e9907a344605f44bfe8d1b760f8f5859c1bc4b44/c10/util/Float8_e4m3fn.h
 function Float8_E4M3FN(float::Float32)
     fp8_max = UInt32(1087) << UInt32(20)
-    denorm_mask = UInt32(121) << UInt32(23)
+    denorm_mask = UInt32(141) << UInt32(23)
     f_bits = reinterpret(UInt32, float)
     sign = f_bits & Base.sign_mask(Float32)
     f_bits ⊻= sign
