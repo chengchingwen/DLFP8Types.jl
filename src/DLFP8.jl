@@ -132,16 +132,31 @@ end
     return bitcast(UInt8, a) == bitcast(UInt8, b)
 end
 
-Base.inttype(::Type{T}) where T <: FP8 = Int8
-@inline function Base.isless(a::T, b::T) where T <: FP8
-    (isnan(a) | isnan(b)) && return !isnan(a)
-    return Base._fpint(a) < Base._fpint(b)
-end
-
-@inline function Base.:(<)(a::T, b::T) where T <: FP8
-    (isnan(a) | isnan(b)) && return false
-    (iszero(a) & iszero(b)) && return false
-    return Base._fpint(a) < Base._fpint(b)
+@static if VERSION >= v"1.7"
+    Base.inttype(::Type{T}) where T <: FP8 = Int8
+    @inline function Base.isless(a::T, b::T) where T <: FP8
+        (isnan(a) | isnan(b)) && return !isnan(a)
+        return Base._fpint(a) < Base._fpint(b)
+    end
+    @inline function Base.:(<)(a::T, b::T) where T <: FP8
+        (isnan(a) | isnan(b)) && return false
+        (iszero(a) & iszero(b)) && return false
+        return Base._fpint(a) < Base._fpint(b)
+    end
+else
+    @inline function _fpint(x)
+        ix = reinterpret(Int8, x)
+        return ifelse(ix < zero(Int8), ix ⊻ typemax(Int8), ix)
+    end
+    @inline function Base.isless(a::T, b::T) where T <: FP8
+        (isnan(a) | isnan(b)) && return !isnan(a)
+        return _fpint(a) < _fpint(b)
+    end
+    @inline function Base.:(<)(a::T, b::T) where T <: FP8
+        (isnan(a) | isnan(b)) && return false
+        (iszero(a) & iszero(b)) && return false
+        return _fpint(a) < _fpint(b)
+    end
 end
 
 for bop in :[
