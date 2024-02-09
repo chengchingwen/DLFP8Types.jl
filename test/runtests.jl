@@ -5,6 +5,9 @@ using Test
     for FP8 in (Float8_E4M3FN, Float8_E4M3FNUZ, Float8_E5M2, Float8_E5M2FNUZ)
         name = String(nameof(FP8))
         @testset "$name" begin
+            # torch_fp8 = name2torchtype(name)
+            # write("$name.bin", torch.arange(0, 256, dtype=torch.uint8).view(torch_fp8).type(torch.float32).numpy())
+            # write("$(name)_U8.bin", torch.arange(0, 256, dtype=torch.uint8).view(torch_fp8).type(torch.float32).type(torch_fp8).view(torch.uint8).numpy())
             real_bytes = reinterpret(Float32, read(joinpath(@__DIR__, "$name.bin")))
             real_bytes_from32 = read(joinpath(@__DIR__, "$(name)_U8.bin"))
             for (i, byte) in enumerate(typemin(UInt8):typemax(UInt8))
