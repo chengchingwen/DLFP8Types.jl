@@ -22,6 +22,8 @@ include("e4m3fnuz.jl")
 include("e5m2.jl")
 include("e5m2fnuz.jl")
 
+Base.reinterpret(::Type{Unsigned}, x::FP8) = reinterpret(UInt8, x)
+Base.reinterpret(::Type{signed}, x::FP8) = reinterpret(Int8, x)
 Base.sign_mask(::Type{T}) where T <: FP8 = 0x80
 Base.significand_mask(::Type{T}) where T <: FP8E4M3 = 0x07
 Base.significand_mask(::Type{T}) where T <: FP8E5M2 = 0x03
@@ -29,6 +31,10 @@ Base.exponent_mask(::Type{T}) where T <: FP8E4M3 = 0x78
 Base.exponent_mask(::Type{T}) where T <: FP8E5M2 = 0x7c
 Base.exponent_bits(::Type{T}) where {E, M, T <: FP8{E, M}} = E
 Base.significand_bits(::Type{T}) where {E, M, T <: FP8{E, M}} = M
+function Base.issubnormal(x::T) where T <: FP8
+    y = reinterpret(Unsigned, x)
+    iszero(y & Base.exponent_mask(T)) & !iszero(y & Base.significand_mask(T))
+end
 
 Base.signbit(fp8::FP8) = bitcast(Bool, bitcast(UInt8, fp8) >> 0x7)
 Base.zero(::Type{T}) where T <: FP8 = bitcast(T, 0x0)
